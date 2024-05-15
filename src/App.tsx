@@ -16,7 +16,7 @@ function App() {
   }, []);
 
   function createTodo() {
-    client.models.Todo.create({ content: window.prompt("Todo content") });
+    client.models.Todo.create({ content: window.prompt("Todo content"), isDone: false });
   }
 
   function deleteTodo(id: string) {
@@ -24,7 +24,7 @@ function App() {
   }
 
   return (
-    <Authenticator>
+    <Authenticator socialProviders={['google']}>
       {({ signOut, user}) =>(
         <main>
           <h1>{user?.signInDetails?.loginId}'s todos</h1>
@@ -33,7 +33,7 @@ function App() {
             {todos.map((todo) =>
               <li onClick={() => deleteTodo(todo.id)}
                 key={todo.id}>
-                {todo.content}
+                {todo.content} <b>{todo.isDone ? "done" : "not done" }</b>
               </li>)}
           </ul>
           <div>
